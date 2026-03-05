@@ -1,49 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<style>
-  body { background-color: #000; color: #fff; font-family: 'Arial Black', sans-serif; margin: 0; }
-  
-  header { 
-    border-bottom: 4px solid #0000FF; /* Electric Blue */
-    padding: 40px; 
-    text-align: center; 
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snack-Hood | Completely Undetected</title>
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --blue: #007BFF;
+            --orange: #FF8C00;
+            --white: #ffffff;
+            --grey: #1a1a1a;
+        }
 
-  .logo { color: #FF8C00; font-size: 50px; text-shadow: 2px 2px #0000FF; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--black);
+            color: var(--white);
+            margin: 0;
+            scroll-behavior: smooth;
+        }
 
-  .story-section {
-    padding: 50px;
-    background: linear-gradient(180deg, #000 0%, #000033 100%);
-    text-align: center;
-  }
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(0, 0, 0, 0.9);
+            position: fixed;
+            width: 90%;
+            z-index: 1000;
+            border-bottom: 2px solid var(--blue);
+        }
 
-  .buy-btn {
-    background-color: #FF8C00; /* Orange */
-    color: black;
-    padding: 20px 40px;
-    font-size: 20px;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 0 15px #FF8C00;
-  }
+        .logo { font-size: 24px; font-weight: bold; color: var(--orange); }
+        .nav-links a { color: var(--white); text-decoration: none; margin-left: 20px; transition: 0.3s; }
+        .nav-links a:hover { color: var(--blue); }
 
-  .buy-btn:hover { background-color: #0000FF; color: white; box-shadow: 0 0 15px #0000FF; }
-</style>
+        /* Sections */
+        section { padding: 100px 10%; min-height: 80vh; display: none; }
+        section.active { display: block; }
+
+        /* Hero Styling */
+        .hero { text-align: center; background: linear-gradient(to bottom, #000, #001f3f); }
+        .hero h1 { font-size: 4rem; margin-bottom: 10px; }
+        .hero span { color: var(--blue); }
+        .cta-btn { 
+            background: var(--orange); border: none; padding: 15px 40px; 
+            font-size: 1.2rem; font-weight: bold; cursor: pointer; border-radius: 5px; margin-top: 20px;
+        }
+
+        /* Product Cards */
+        .product-container { display: flex; gap: 30px; justify-content: center; margin-top: 50px; }
+        .card { 
+            background: var(--grey); padding: 20px; border-radius: 10px; border: 1px solid var(--blue);
+            width: 300px; text-align: center; transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 0 20px var(--blue); }
+        .card h3 { color: var(--orange); }
+
+        /* Checkout Form */
+        .checkout-box { background: var(--grey); padding: 40px; border-radius: 10px; max-width: 500px; margin: auto; }
+        input, select { width: 100%; padding: 10px; margin: 10px 0; background: #333; color: white; border: 1px solid var(--blue); }
+
+        footer { text-align: center; padding: 40px; border-top: 1px solid #333; font-size: 0.8rem; }
+    </style>
 </head>
 <body>
 
-<header>
-  <div class="logo">SNACK HODODS</div>
-  <p>STAY HUNGRY. STAY LOUD.</p>
-</header>
+<nav>
+    <div class="logo">SNACK-HOOD</div>
+    <div class="nav-links">
+        <a href="#" onclick="showPage('home')">Home</a>
+        <a href="#" onclick="showPage('story')">Our Story</a>
+        <a href="#" onclick="showPage('products')">Shop</a>
+        <a href="#" onclick="showPage('checkout')">Checkout</a>
+    </div>
+</nav>
 
-<section class="story-section">
-  <h2>OUR STORY</h2>
-  <p>Born in the dark. Fueled by flavor. The Hodod is the world's first aerodynamic snack.</p>
-  <br>
-  <button class="buy-btn">GET THE CRUNCH</button>
+<section id="home" class="active">
+    <div class="hero">
+        <h1>SNACK <span style="color:var(--orange)">COMPLETELY</span> UNDETECTED</h1>
+        <p>The Revolutionary Silent-Fabric Hoodie with Built-in Organized Compartments.</p>
+        <button class="cta-btn" onclick="showPage('products')">VIEW MODELS</button>
+    </div>
 </section>
+
+<section id="story">
+    <h2 style="color:var(--orange)">FROM SMUGGLERS TO FOUNDERS</h2>
+    <p>Back in middle school, we were self-proclaimed snack smugglers. Our mission: eat in class without getting caught. One explosion of a granola bar wrapper later, we knew we needed a better way.</p>
+    <p>The Snack-Hood is engineered with <b>Piezoelectric Noise-Canceling Silk</b>. Whether you're in the movies, at school, or mid-game, you can grab a bite in seconds without breaking focus.</p>
+</section>
+
+<section id="products">
+    <h2 style="text-align: center;">CHOOSE YOUR GEAR</h2>
+    <div class="product-container">
+        <div class="card">
+            <h3>Classic Snack-Hood</h3>
+            <p>Lighter weave, fits up to 3 medium snacks. Perfect for the gym or a quick trip.</p>
+            <p><b>$59.99</b></p>
+            <button class="cta-btn" onclick="showPage('checkout')">Select</button>
+        </div>
+        <div class="card">
+            <h3>Snack-Hood Ultimate</h3>
+            <p>Holds up to 4 bags of chips & 4 bars. Advanced thermal insulation for chocolate.</p>
+            <p><b>$89.99</b></p>
+            <button class="cta-btn" onclick="showPage('checkout')">Select</button>
+        </div>
+    </div>
+</section>
+
+<section id="checkout">
+    <div class="checkout-box">
+        <h2>SECURE CHECKOUT</h2>
+        <input type="text" placeholder="Full Name">
+        <input type="email" placeholder="Email Address">
+        <select>
+            <option>Select Model</option>
+            <option>Classic Snack-Hood - $59.99</option>
+            <option>Snack-Hood Ultimate - $89.99</option>
+        </select>
+        <input type="text" placeholder="Shipping Address">
+        <button class="cta-btn" style="width:100%">COMPLETE ORDER</button>
+    </div>
+</section>
+
+<footer>
+    ©2026 The Snack-Hood Company. Snack-Hood and Snack-Hood Ultimate are trademarks. Patents Pending.
+</footer>
+
+<script>
+    function showPage(pageId) {
+        // Hide all sections
+        document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+        // Show the selected section
+        document.getElementById(pageId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+</script>
 
 </body>
 </html>
