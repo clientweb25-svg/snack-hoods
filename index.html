@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snack-Hood | The Future of Stealth</title>
+    <title>Snack-Hood | Engineered Silence</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --brand-main: #FF385C; /* Electric Watermelon */
-            --brand-alt: #00D1FF;  /* Sky Blue */
-            --brand-bright: #FFD600; /* Zesty Lemon */
+            --brand-main: #FF385C; 
+            --brand-alt: #00D1FF;  
+            --brand-bright: #FFD600; 
             --eco-green: #2ecc71;
+            --lumia-purple: #8e44ad;
             --bg-clean: #FFFFFF;
             --surface: #F8F9FA;
             --text-dark: #1A1A1B;
@@ -23,7 +24,7 @@
             color: var(--text-dark);
         }
 
-        /* Nav Bar - Vibrancy Start */
+        /* Nav Bar */
         nav {
             display: flex;
             justify-content: space-between;
@@ -37,25 +38,22 @@
         }
 
         .logo { font-weight: 800; font-size: 1.8rem; color: var(--brand-main); cursor: pointer; }
-        .nav-links a { text-decoration: none; color: var(--text-dark); margin-left: 25px; font-weight: 500; transition: 0.2s; }
-        .nav-links a:hover { color: var(--brand-alt); }
+        .nav-links a { text-decoration: none; color: var(--text-dark); margin-left: 25px; font-weight: 500; }
 
         /* Page System */
         .page { display: none; padding: 40px 8%; animation: slideUp 0.5s ease; }
         .page.active { display: block; }
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Hero: High Contrast & Energy */
+        /* Hero */
         .hero { 
             background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%);
             color: white;
             padding: 100px 10%;
             border-radius: 40px;
             text-align: center;
-            box-shadow: 0 20px 40px rgba(255, 56, 92, 0.2);
         }
-        .hero h1 { font-size: 4.2rem; margin: 0; line-height: 0.9; text-shadow: 2px 2px 0px rgba(0,0,0,0.1); }
-        .hero p { font-size: 1.3rem; font-weight: 300; margin: 25px 0; opacity: 0.9; }
+        .hero h1 { font-size: 4.2rem; margin: 0; line-height: 0.9; }
 
         /* Product Cards */
         .card-grid { display: flex; gap: 40px; justify-content: center; margin-top: 60px; flex-wrap: wrap; }
@@ -67,28 +65,31 @@
             transition: 0.3s;
             border: 2px solid transparent;
             text-align: center;
+            cursor: pointer;
         }
-        .p-card:hover { transform: scale(1.03); border-color: var(--brand-alt); box-shadow: 0 15px 30px rgba(0,0,0,0.05); }
-        .img-box { background: #eee; height: 350px; border-radius: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: #aaa; overflow: hidden; }
+        .p-card:hover { transform: scale(1.03); border-color: var(--brand-alt); }
+        .img-box { background: #eee; height: 350px; border-radius: 20px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: #aaa; }
 
-        /* Amazon-Style Details */
+        /* Product Details */
         .product-flex { display: flex; gap: 60px; align-items: flex-start; }
-        .info-panel { flex: 1; }
         .buy-box { width: 350px; padding: 30px; border: 1px solid #ddd; border-radius: 20px; background: white; }
-        .tag { display: inline-block; padding: 5px 12px; border-radius: 6px; font-size: 0.75rem; font-weight: 800; text-transform: uppercase; margin-right: 10px; }
+        
+        /* Badges */
+        .badge-row { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tag { padding: 5px 12px; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
         .tag-eco { background: #e8f8f0; color: var(--eco-green); }
+        .tag-audio { background: #f3ebf7; color: var(--lumia-purple); }
 
-        /* EcoLife Partner Section */
-        .partner-bar {
-            margin-top: 50px;
+        /* Partnership Blocks */
+        .partner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+        .partner-card {
             padding: 20px;
-            background: #f0fff4;
             border-radius: 15px;
-            border-left: 5px solid var(--eco-green);
-            display: flex;
-            align-items: center;
-            gap: 20px;
+            background: #fff;
+            border: 1px solid #eee;
         }
+        .lumia-text { color: var(--lumia-purple); font-weight: 800; }
+        .eco-text { color: var(--eco-green); font-weight: 800; }
 
         .btn-action {
             background: var(--brand-main);
@@ -101,9 +102,9 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        .btn-action:hover { background: var(--text-dark); transform: translateY(-3px); }
+        .btn-action:hover { background: var(--text-dark); }
 
-        footer { text-align: center; padding: 100px 5%; background: var(--surface); margin-top: 100px; }
+        footer { text-align: center; padding: 60px 5%; background: var(--surface); margin-top: 100px; }
     </style>
 </head>
 <body>
@@ -112,62 +113,71 @@
     <div class="logo" onclick="showPage('home')">SNACK-HOOD</div>
     <div class="nav-links">
         <a href="#" onclick="showPage('home')">Home</a>
-        <a href="#" onclick="showPage('shop')">Shop Collection</a>
-        <a href="#" onclick="showPage('story')">Our Origin</a>
+        <a href="#" onclick="showPage('shop')">Shop</a>
+        <a href="#" onclick="showPage('story')">Our Story</a>
         <a href="#" onclick="showPage('cart')">Bag (<span id="cart-count">0</span>)</a>
     </div>
 </nav>
 
 <section id="home" class="page active">
     <div class="hero">
-        <h1>STAY FULL. <br>STAY HIDDEN.</h1>
-        <p>Swiss-engineered stealth meets game-saving convenience. <br>Never pause for a snack break again.</p>
-        <button class="btn-action" style="background: white; color: var(--brand-main);" onclick="showPage('shop')">SHOP NOW</button>
+        <h1>CRUNCH IN <br>COMPLETE SILENCE.</h1>
+        <p>Developed with Lumia Labs to silence the noise. Crafted by ECOLIFE to protect the planet.</p>
+        <button class="btn-action" style="background: white; color: var(--brand-main);" onclick="showPage('shop')">EXPLORE GEAR</button>
     </div>
 </section>
 
 <section id="shop" class="page">
-    <h2 style="font-size: 2.5rem; text-align: center;">The 2026 Collection</h2>
+    <h2 style="text-align: center;">The 2026 Stealth Collection</h2>
     <div class="card-grid">
         <div class="p-card" onclick="viewProduct('og')">
-            <div class="img-box">[IMAGE: SNACK-HOOD OG]</div>
+            <div class="img-box">[SNACK-HOOD OG]</div>
             <h3>Snack-Hood: The OG</h3>
             <p style="color: var(--brand-main); font-weight: 800;">$100.00 CAD</p>
-            <span class="tag tag-eco">EcoLife Materials</span>
+            <div class="badge-row" style="justify-content: center;">
+                <span class="tag tag-audio">Lumia Audio Tech</span>
+                <span class="tag tag-eco">EcoLife Fabric</span>
+            </div>
         </div>
         <div class="p-card" onclick="viewProduct('ultimate')">
-            <div class="img-box">[IMAGE: SNACK-HOOD ULTIMATE]</div>
+            <div class="img-box">[SNACK-HOOD ULTIMATE]</div>
             <h3>Snack-Hood Ultimate</h3>
             <p style="color: var(--brand-main); font-weight: 800;">$130.00 CAD</p>
-            <span class="tag tag-eco">Max Capacity</span>
-        </div>
-    </div>
-</section>
-
-<section id="product-detail" class="page">
-    <div class="product-flex" id="detail-target">
-        </div>
-</section>
-
-<section id="story" class="page">
-    <div style="max-width: 800px; margin: auto; line-height: 1.8;">
-        <h2 style="color: var(--brand-main); font-size: 2.5rem;">From Smugglers to Founders</h2>
-        <p>In middle school, our mission was simple: eat in class without getting caught. One granola bar explosion later, the whole room went silent. We failed. But we learned.</p>
-        <p>Years later, we realized the hassle remained. Bags were bulky and wrappers were loud. We turned that detention-room dream into <b>Snack-Hood</b>: an insulating hoodie with a binder-like compartment that keeps food fresh and easy to carry without the bulk.</p>
-        
-        <div class="partner-bar">
-            <div style="font-size: 1.5rem;">🌱</div>
-            <div>
-                <strong>Partnered with ECOLIFE</strong>
-                <p style="margin: 0; font-size: 0.9rem;">We believe in premium quality that doesn't cost the Earth. ECOLIFE sources our high-tech, sustainable fibers exclusively for our Swiss manufacturing facilities.</p>
+            <div class="badge-row" style="justify-content: center;">
+                <span class="tag tag-audio">Lumia Max Stealth</span>
+                <span class="tag tag-eco">EcoLife Premium</span>
             </div>
         </div>
     </div>
 </section>
 
+<section id="product-detail" class="page">
+    <div class="product-flex" id="detail-target"></div>
+</section>
+
+<section id="story" class="page">
+    <div style="max-width: 850px; margin: auto; line-height: 1.8;">
+        <h2 style="color: var(--brand-main); font-size: 2.5rem;">From Classrooms to Laboratories</h2>
+        <p>It started as a middle school dream: eating in class without that "granola bar explosion" sound. After years of development, we realized we couldn't do it alone. We needed the best in the world.</p>
+        
+        <div class="partner-grid">
+            <div class="partner-card">
+                <span class="lumia-text">LUMIA LABS Partnership</span>
+                <p style="font-size: 0.9rem; margin-top: 10px;">We collaborated with <b>Lumia Labs</b>, the world leaders in high-fidelity acoustics, to develop our <b>Piezoelectric Silk</b>. Together, we engineered a fabric that actively cancels the high-frequency crinkle of snack wrappers.</p>
+            </div>
+            <div class="partner-card">
+                <span class="eco-text">ECOLIFE Partnership</span>
+                <p style="font-size: 0.9rem; margin-top: 10px;"><b>ECOLIFE</b> specializes in manufacturing premium, high-quality eco-friendly materials. They source our sustainable Swiss fibers, ensuring your stealth doesn't come at a cost to the environment.</p>
+            </div>
+        </div>
+
+        <p style="margin-top: 30px;">What started as a funny memory is now a reality. Built in Switzerland, designed with science, and made for the hungry.</p>
+    </div>
+</section>
+
 <section id="cart" class="page">
     <div style="max-width: 600px; margin: auto; background: var(--surface); padding: 40px; border-radius: 30px;">
-        <h2>Your Shopping Bag</h2>
+        <h2>Your Bag</h2>
         <div id="cart-list" style="margin: 20px 0; border-top: 1px solid #ddd; padding-top: 20px;">
             <p>Your bag is empty.</p>
         </div>
@@ -175,13 +185,13 @@
             <span>Subtotal</span>
             <span id="cart-total">$0.00 CAD</span>
         </div>
-        <button class="btn-action" style="width: 100%; margin-top: 30px;">SECURE CHECKOUT</button>
+        <button class="btn-action" style="width: 100%; margin-top: 30px;">PROCEED TO CHECKOUT</button>
     </div>
 </section>
 
 <footer>
     <p><b>SNACK-HOOD INTERNATIONAL</b></p>
-    <p>Premium Stealth Apparel. Crafted in Switzerland using ECOLIFE™ Sustainable Fibers.</p>
+    <p>Crafted in Switzerland | Powered by Lumia Labs Acoustic Tech | Sustained by ECOLIFE</p>
 </footer>
 
 <script>
@@ -189,16 +199,16 @@
         og: {
             name: "Snack-Hood: The OG",
             price: 100,
-            desc: "Designed for portability and everyday convenience. Built with a lighter weave for maximum breathability during gym sessions or library study marathons.",
-            specs: ["Fits 3 medium snacks", "Piezoelectric Noise-Cancel Tech", "Lighter ECOLIFE Weave", "Binder-style layout"],
-            eco: "100% Recycled Swiss-sourced fibers by ECOLIFE."
+            desc: "The classic portable binder-system. Perfect for quick trips, library sessions, and everyday stealth.",
+            specs: ["Fits 3 medium snacks", "Lumia Labs V1 Silence Tech", "Breathable ECOLIFE Weave", "Binder-style compartments"],
+            partner: "Powered by Lumia Labs Acoustic Fiber."
         },
         ultimate: {
             name: "Snack-Hood Ultimate",
             price: 130,
-            desc: "The premium version for the dedicated snacker. Featuring extra storage capacity and advanced thermal regulation to prevent chocolate melt mid-game.",
-            specs: ["Fits up to 8 large bars", "Advanced insulation", "Reinforced Binder System", "Hidden internal expansion"],
-            eco: "Premium high-density sustainable materials by ECOLIFE."
+            desc: "The professional snack loadout. Advanced thermal regulation and maximum storage for long-haul gaming.",
+            specs: ["Fits 8 large snack bars", "Lumia Labs Pro Stealth Lining", "Thermal-insulated pockets", "Reinforced Eco-Materials"],
+            partner: "Features Lumia Labs Pro-Active Noise Cancellation."
         }
     };
 
@@ -214,22 +224,26 @@
         const p = data[key];
         document.getElementById('detail-target').innerHTML = `
             <div style="flex: 1.2;">
-                <div class="img-box" style="height: 500px;">[HIGH-RES VIEW: ${p.name}]</div>
-                <h3>Technical Details</h3>
+                <div class="img-box" style="height: 500px;">[PRODUCT VIEW: ${p.name}]</div>
+                <h3>Product Intelligence</h3>
                 <p>${p.desc}</p>
-                <div class="partner-bar">
-                    <strong>Sustainability:</strong> ${p.eco}
+                <div class="partner-card">
+                    <span class="lumia-text">ACOUSTIC PARTNER: LUMIA LABS</span>
+                    <p style="font-size: 0.9rem;">${p.partner}</p>
                 </div>
             </div>
             <div class="buy-box">
-                <span class="tag tag-eco">Swiss Made</span>
+                <div class="badge-row">
+                    <span class="tag tag-audio">Lumia Labs</span>
+                    <span class="tag tag-eco">ECOLIFE</span>
+                </div>
                 <h1>${p.name}</h1>
-                <p style="font-size: 2rem; color: var(--brand-main); font-weight: 800; margin: 10px 0;">$${p.price}.00 CAD</p>
+                <p style="font-size: 2rem; color: var(--brand-main); font-weight: 800;">$${p.price}.00 CAD</p>
                 <ul style="padding-left: 20px; line-height: 2;">
                     ${p.specs.map(s => `<li>${s}</li>`).join('')}
                 </ul>
                 <button class="btn-action" style="width:100%" onclick="addToBag('${key}')">ADD TO BAG</button>
-                <p style="text-align:center; font-size: 0.8rem; margin-top: 15px; color: #666;">Ships in 100% compostable packaging</p>
+                <p style="text-align:center; font-size: 0.8rem; margin-top: 15px; color: #666;">Made in Switzerland with eco-friendly materials.</p>
             </div>
         `;
         showPage('product-detail');
@@ -239,21 +253,14 @@
         cart.push(data[key]);
         document.getElementById('cart-count').innerText = cart.length;
         renderCart();
-        alert("Added to bag!");
+        alert("Success! Added to bag.");
     }
 
     function renderCart() {
         const list = document.getElementById('cart-list');
         const totalDisp = document.getElementById('cart-total');
         if(cart.length === 0) return;
-
-        list.innerHTML = cart.map(item => `
-            <div style="display:flex; justify-content:space-between; margin-bottom: 10px;">
-                <span><b>${item.name}</b></span>
-                <span>$${item.price}.00</span>
-            </div>
-        `).join('');
-
+        list.innerHTML = cart.map(item => `<div style="display:flex; justify-content:space-between; margin-bottom: 10px;"><span>${item.name}</span><span>$${item.price}.00</span></div>`).join('');
         const total = cart.reduce((sum, item) => sum + item.price, 0);
         totalDisp.innerText = `$${total.toFixed(2)} CAD`;
     }
