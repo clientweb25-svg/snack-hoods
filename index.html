@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Snack-Hood | Swiss Engineered Silence</title>
+    <title>Snack-Hood | Experience Silence</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -11,10 +11,11 @@
             --brand-alt: #00D1FF;  
             --brand-bright: #FFD600; 
             --eco-green: #2ecc71;
+            --brand-orange: #ff7e5f; /* New Orange for background */
             --lumia-purple: #8e44ad;
             --bg-clean: #ffffff;
             --text-dark: #1A1A1B;
-            --glass: rgba(255, 255, 255, 0.8);
+            --glass: rgba(255, 255, 255, 0.7);
         }
 
         body {
@@ -23,6 +24,37 @@
             background-color: var(--bg-clean);
             color: var(--text-dark);
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* --- Apple-Style Animated Background --- */
+        .bg-gradient-mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(45deg, #ffffff, #f0f0f0);
+        }
+
+        .bg-blob {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            filter: blur(80px);
+            opacity: 0.15;
+            z-index: -1;
+            border-radius: 50%;
+            animation: move 20s infinite alternate;
+        }
+
+        .blob-orange { background: var(--brand-orange); top: -200px; right: -200px; }
+        .blob-green { background: var(--eco-green); bottom: -200px; left: -200px; animation-delay: -5s; }
+
+        @keyframes move {
+            from { transform: translate(0, 0) scale(1); }
+            to { transform: translate(100px, 100px) scale(1.2); }
         }
 
         /* Fluid Navigation */
@@ -33,23 +65,19 @@
             padding: 20px 8%;
             background: var(--glass);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             position: sticky;
             top: 0;
             z-index: 1000;
-            border-bottom: 1px solid #eee;
+            transition: all 0.4s ease;
         }
 
         .logo { font-weight: 800; font-size: 1.8rem; color: var(--brand-main); cursor: pointer; }
-        .nav-links a { text-decoration: none; color: var(--text-dark); margin-left: 25px; font-weight: 500; cursor: pointer; }
 
-        /* Page Management */
-        .page { display: none; min-height: 100vh; }
-        .page.active { display: block; }
-
-        /* Apple-Style Hero */
+        /* Video Hero Section */
         .hero-container {
             position: relative;
-            height: 80vh;
+            height: 90vh;
             width: 100%;
             overflow: hidden;
             display: flex;
@@ -65,22 +93,27 @@
             left: 50%;
             min-width: 100%;
             min-height: 100%;
+            width: auto;
+            height: auto;
             transform: translate(-50%, -50%);
             z-index: -1;
-            filter: brightness(0.5);
+            filter: brightness(0.6) saturate(1.2);
             object-fit: cover;
         }
 
-        .parallax-text {
-            will-change: transform;
-            transition: transform 0.1s ease-out;
+        .hero-content h1 { 
+            font-size: clamp(3rem, 8vw, 6rem); 
+            line-height: 0.9; 
+            margin: 0;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: appleFade 1s forwards ease-out;
         }
 
-        /* Animation Classes */
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .reveal.active {
@@ -88,259 +121,230 @@
             transform: translateY(0);
         }
 
-        /* Grid & Cards */
+        @keyframes appleFade {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Product Cards */
         .card-grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 30px; 
-            padding: 50px 8%;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 40px; 
+            padding: 100px 8%;
         }
 
         .p-card {
-            background: #fff;
-            border-radius: 30px;
-            padding: 20px;
-            border: 1px solid #eee;
-            transition: 0.4s;
-            cursor: pointer;
-            text-align: center;
+            background: rgba(253, 253, 253, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            padding: 40px;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid rgba(0,0,0,0.05);
+            position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
-        .p-card:hover:not(.lite) { transform: translateY(-10px); border-color: var(--brand-alt); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .p-card:hover {
+            transform: scale(1.02) translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+        }
 
-        .img-placeholder {
-            background: #f0f0f0;
-            height: 250px;
+        .p-card video {
+            width: 100%;
             border-radius: 20px;
             margin-bottom: 20px;
+        }
+
+        /* --- Quantity Logic --- */
+        .purchase-controls {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-top: 20px;
+        }
+
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            background: #f0f0f0;
+            border-radius: 100px;
+            width: fit-content;
+            padding: 5px;
+        }
+
+        .qty-btn {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            border: none;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #bbb;
-            font-weight: 800;
-            overflow: hidden;
+            transition: 0.2s;
         }
 
-        /* Product Detail Layout */
-        .detail-layout {
-            display: grid;
-            grid-template-columns: 1.2fr 1fr;
-            gap: 50px;
-            padding: 50px 8%;
-            max-width: 1200px;
-            margin: auto;
+        .qty-btn:hover { background: var(--brand-alt); color: white; }
+
+        .qty-val {
+            padding: 0 15px;
+            font-weight: 500;
         }
 
-        /* Partnerships & Badges */
+        .lite-version { background: #111; color: white; border: none; }
+
         .tag {
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 100px;
             font-size: 0.7rem;
-            font-weight: 800;
+            font-weight: 700;
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            margin: 5px;
+            background: rgba(0,0,0,0.05);
+            margin-right: 5px;
+            margin-bottom: 10px;
         }
-        .tag-eco { background: #e8f8f0; color: var(--eco-green); }
-        .tag-audio { background: #f3ebf7; color: var(--lumia-purple); }
 
-        .btn-main {
-            background: var(--brand-main);
-            color: white;
-            padding: 15px 35px;
-            border-radius: 50px;
+        .page { display: none; }
+        .page.active { display: block; }
+
+        .btn-fluid {
+            padding: 15px 30px;
+            border-radius: 100px;
             border: none;
             font-weight: 800;
+            font-size: 1rem;
             cursor: pointer;
             transition: 0.3s;
+            background: var(--brand-main);
+            color: white;
+            width: 100%;
         }
-        .btn-main:hover { transform: scale(1.05); background: var(--text-dark); }
 
-        /* Lite Version Styling */
-        .lite { background: #111; color: #fff; border: none; cursor: default; }
-        .lite-img { background: #000; color: #333; }
+        .btn-fluid:hover { transform: scale(1.03); filter: brightness(1.1); }
+        .nav-links a { text-decoration: none; color: inherit; margin-left: 20px; font-weight: 500;}
 
-        footer { text-align: center; padding: 100px 5%; background: var(--surface); border-top: 1px solid #eee; }
     </style>
 </head>
 <body>
 
+<div class="bg-gradient-mesh"></div>
+<div class="bg-blob blob-orange"></div>
+<div class="bg-blob blob-green"></div>
+
 <nav>
     <div class="logo" onclick="showPage('home')">SNACK-HOOD</div>
     <div class="nav-links">
-        <a onclick="showPage('shop')">Collection</a>
-        <a onclick="showPage('story')">Our Story</a>
-        <a onclick="showPage('cart')">Bag (<span id="cart-count">0</span>)</a>
+        <a href="#" onclick="showPage('shop')">Collection</a>
+        <a href="#" onclick="showPage('cart')">Bag (<span id="cart-count">0</span>)</a>
     </div>
 </nav>
 
 <div id="home" class="page active">
     <div class="hero-container">
         <video class="hero-video" autoplay muted loop playsinline>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-man-under-the-hoodie-of-a-sweatshirt-31367-large.mp4" type="video/mp4">
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-cinematic-video-of-a-man-in-a-hoodie-walking-34289-large.mp4" type="video/mp4">
         </video>
-        <div class="parallax-text">
-            <h1 style="font-size: 4.5rem; margin: 0;">SILENCE IS TASTY.</h1>
-            <p style="font-size: 1.5rem; opacity: 0.9;">Swiss Precision. 🔊 Lumia Labs Tech. 🌿 ECOLIFE Materials.</p>
-            <button class="btn-main" onclick="showPage('shop')" style="margin-top: 20px;">SHOP COLLECTION</button>
+        <div class="hero-content">
+            <h1>UNSAVABLE <br>PROGRESS.</h1>
+            <p>15 Seconds to Load. 15 Seconds to Snack.</p>
+            <button class="btn-fluid" style="width: auto;" onclick="showPage('shop')">Explore Collections</button>
         </div>
     </div>
-
-    <section class="reveal" style="padding: 100px 8%; text-align: center;">
-        <h2>Engineered for the Unsavable.</h2>
-        <p style="max-width: 800px; margin: auto; line-height: 1.8; color: #666;">
-            Whether you're mid-game with only a 15-second loading screen or in a quiet library, the Snack-Hood binder-system keeps your favorite treats accessible and completely silent.
-        </p>
-    </section>
 </div>
 
 <div id="shop" class="page">
-    <div style="text-align: center; padding-top: 50px;">
-        <h1 class="reveal">The Stealth Series</h1>
-    </div>
     <div class="card-grid">
-        <div class="p-card lite reveal">
-            <div class="img-placeholder lite-img">COMING SOON</div>
-            <h3>Snack-Hood Lite</h3>
-            <p>$39.99 CAD</p>
-            <p style="font-size: 0.8rem; opacity: 0.6;">Standard materials. Maximum convenience.</p>
-        </div>
-
-        <div class="p-card reveal" onclick="viewProduct('og')">
-            <div class="img-placeholder">IMAGE: THE OG</div>
-            <div class="tag tag-audio">🔊 Lumia Labs</div>
-            <div class="tag tag-eco">🌿 ECOLIFE</div>
+        <div class="p-card reveal">
+            <video autoplay muted loop playsinline>
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-water-1164-large.mp4" type="video/mp4">
+            </video>
+            <div class="tags">
+                <div class="tag">🌿 ECOLIFE</div> <div class="tag">🔊 Lumia Labs</div>
+            </div>
             <h3>Snack-Hood: The OG</h3>
             <p>$100.00 CAD</p>
+            
+            <div class="purchase-controls">
+                <div class="qty-selector">
+                    <button class="qty-btn" onclick="updateQty('og-qty', -1)">-</button>
+                    <span class="qty-val" id="og-qty">1</span>
+                    <button class="qty-btn" onclick="updateQty('og-qty', 1)">+</button>
+                </div>
+                <button class="btn-fluid" onclick="addToBag('Snack-Hood OG', 100, 'og-qty')">Add to Bag</button>
+            </div>
         </div>
 
-        <div class="p-card reveal" onclick="viewProduct('ultimate')">
-            <div class="img-placeholder">IMAGE: ULTIMATE</div>
-            <div class="tag tag-audio">🔊 Lumia Pro</div>
-            <div class="tag tag-eco">🌿 ECOLIFE Premium</div>
+        <div class="p-card reveal">
+            <video autoplay muted loop playsinline>
+                <source src="https://assets.mixkit.co/videos/preview/mixkit-texture-of-a-black-fabric-4458-large.mp4" type="video/mp4">
+            </video>
+            <div class="tags">
+                <div class="tag">🌿 Premium</div> <div class="tag">🔊 Lumia Max</div>
+            </div>
             <h3>Snack-Hood Ultimate</h3>
             <p>$130.00 CAD</p>
+            
+            <div class="purchase-controls">
+                <div class="qty-selector">
+                    <button class="qty-btn" onclick="updateQty('ult-qty', -1)">-</button>
+                    <span class="qty-val" id="ult-qty">1</span>
+                    <button class="qty-btn" onclick="updateQty('ult-qty', 1)">+</button>
+                </div>
+                <button class="btn-fluid" onclick="addToBag('Snack-Hood Ultimate', 130, 'ult-qty')">Add to Bag</button>
+            </div>
         </div>
     </div>
 </div>
 
-<div id="product-detail" class="page">
-    <div id="detail-content" class="detail-layout">
-        </div>
-</div>
-
-<div id="story" class="page">
-    <section style="padding: 80px 10%; line-height: 1.8;">
-        <h1 style="color: var(--brand-main);">Our Mission</h1>
-        <p>Back in middle school, we were self-proclaimed snack smugglers. Our mission was simple: eat in class without getting caught. One explosion of a granola bar wrapper later, we knew we needed a better way.</p>
-        <p>We partnered with <b>Lumia Labs 🔊</b> to develop high-tech noise-canceling fabric and <b>ECOLIFE 🌿</b> to manufacture premium, eco-friendly Swiss materials. What started as a detention-room dream is now the ultimate gear for gamers and students alike.</p>
-    </section>
-</div>
-
-<div id="cart" class="page">
-    <section style="padding: 80px 10%; max-width: 600px; margin: auto;">
-        <h2>Your Shopping Bag</h2>
-        <div id="cart-items" style="margin-bottom: 30px; border-top: 1px solid #eee; padding-top: 20px;">
-            <p>Your bag is empty.</p>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-weight:800; font-size: 1.5rem;">
-            <span>Total:</span>
-            <span id="cart-total">$0.00 CAD</span>
-        </div>
-        <button class="btn-main" style="width: 100%; margin-top: 30px;">PROCEED TO CHECKOUT</button>
-    </section>
-</div>
-
-<footer>
-    <p><b>SNACK-HOOD CO.</b> | Crafted in Switzerland</p>
-    <p style="font-size: 0.7rem; opacity: 0.5;">Powered by Lumia Labs 🔊 & ECOLIFE 🌿</p>
-</footer>
-
 <script>
-    const productData = {
-        og: {
-            name: "Snack-Hood: The OG",
-            price: 100,
-            desc: "The original blueprint for silent snacking. Developed with 🔊 Lumia Labs for noise-canceling silk and 🌿 ECOLIFE for sustainable Swiss-sourced fibers.",
-            specs: ["Fits 3 medium snacks", "Piezoelectric Noise Cancellation", "Breathable Light Weave", "Quick-Access Binder System"],
-            madeIn: "Zurich, Switzerland"
-        },
-        ultimate: {
-            name: "Snack-Hood Ultimate",
-            price: 130,
-            desc: "The ultimate loadout for gamers. Features advanced thermal regulation by ECOLIFE 🌿 and Lumia Pro 🔊 acoustics to hide even the loudest chips.",
-            specs: ["Fits 8 large bars", "Advanced Thermal Lining", "Reinforced Binder System", "High-Capacity Storage"],
-            madeIn: "Geneva, Switzerland"
-        }
-    };
-
-    let cart = [];
-
     function showPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
-        window.scrollTo(0,0);
-        initReveal();
+        window.scrollTo({top: 0, behavior: 'smooth'});
+        initScrollReveal();
     }
 
-    function viewProduct(key) {
-        const p = productData[key];
-        const container = document.getElementById('detail-content');
-        container.innerHTML = `
-            <div class="img-placeholder" style="height: 500px;">PRODUCT IMAGE: ${p.name}</div>
-            <div>
-                <div class="tag tag-audio">🔊 Lumia Labs Partnership</div>
-                <div class="tag tag-eco">🌿 ECOLIFE Materials</div>
-                <h1 style="font-size: 3rem; margin: 10px 0;">${p.name}</h1>
-                <p style="font-size: 1.8rem; color: var(--brand-main); font-weight: 800;">$${p.price}.00 CAD</p>
-                <p>${p.desc}</p>
-                <ul style="line-height: 2;">
-                    ${p.specs.map(s => `<li>${s}</li>`).join('')}
-                </ul>
-                <p><small><b>Made in:</b> ${p.madeIn}</small></p>
-                <button class="btn-main" onclick="addToCart('${key}')" style="width:100%">ADD TO BAG</button>
-            </div>
-        `;
-        showPage('product-detail');
-    }
-
-    function addToCart(key) {
-        cart.push(productData[key]);
-        document.getElementById('cart-count').innerText = cart.length;
-        updateCartUI();
-        alert("Added to bag!");
-    }
-
-    function updateCartUI() {
-        const list = document.getElementById('cart-items');
-        const total = document.getElementById('cart-total');
-        if (cart.length === 0) return;
-        
-        list.innerHTML = cart.map(item => `<div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>${item.name}</span><span>$${item.price}.00</span></div>`).join('');
-        const sum = cart.reduce((acc, item) => acc + item.price, 0);
-        total.innerText = `$${sum.toFixed(2)} CAD`;
-    }
-
-    // Parallax & Reveal Logic
-    function initReveal() {
+    function initScrollReveal() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if(entry.isIntersecting) entry.target.classList.add('active');
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
             });
         }, { threshold: 0.1 });
+
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const parallax = document.querySelector('.parallax-text');
-        if(parallax) {
-            parallax.style.transform = `translateY(${scrolled * 0.3}px)`;
-        }
-    });
+    window.onload = initScrollReveal;
 
-    window.onload = initReveal;
+    // --- New Logic: Quantity and Cart ---
+    function updateQty(id, delta) {
+        const el = document.getElementById(id);
+        let current = parseInt(el.innerText);
+        current += delta;
+        if (current < 1) current = 1; // Minimum 1
+        el.innerText = current;
+    }
+
+    let cartCount = 0;
+    function addToBag(name, price, qtyId) {
+        const qty = parseInt(document.getElementById(qtyId).innerText);
+        cartCount += qty;
+        document.getElementById('cart-count').innerText = cartCount;
+        
+        // Visual feedback
+        alert(`Successfully added ${qty}x ${name} to your bag!`);
+        
+        // Reset quantity back to 1 after adding
+        document.getElementById(qtyId).innerText = "1";
+    }
 </script>
 
 </body>
