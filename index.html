@@ -1,4 +1,4 @@
-<!<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,12 +15,25 @@
             --radius: 30px;
         }
 
-        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        * { box-sizing: border-box; transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
         /* --- High-End Animations --- */
         @keyframes reveal { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        
+        @keyframes glassFade { from { opacity: 0; backdrop-filter: blur(0px); } to { opacity: 1; backdrop-filter: blur(15px); } }
+
+        /* --- Disclaimer Overlay --- */
+        #warningOverlay {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85);
+            z-index: 9999; display: flex; align-items: center; justify-content: center;
+            animation: glassFade 0.8s forwards;
+        }
+        .warning-box { 
+            background: #1c1c1e; padding: 40px; border-radius: var(--radius); 
+            max-width: 500px; text-align: center; border: 1px solid #333;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+
         /* --- Navigation --- */
         nav {
             display: flex; justify-content: space-between; padding: 15px 8%;
@@ -28,64 +41,70 @@
             position: fixed; width: 100%; top: 0; z-index: 1000; border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         .logo { font-weight: 600; font-size: 1.1rem; letter-spacing: -0.5px; cursor: pointer; }
+        .nav-link { cursor: pointer; font-size: 0.85rem; color: var(--secondary-text); margin-right: 25px; }
+        .nav-link:hover { color: var(--accent); }
         .cart-btn { cursor: pointer; background: var(--accent); color: white; border: none; padding: 10px 25px; border-radius: 50px; font-weight: 500; font-size: 0.85rem; }
 
-        /* --- Storefront --- */
+        /* --- Hero & Grid --- */
         .store-container { margin-top: 140px; padding: 0 8% 100px; text-align: center; }
-        .hero-text h1 { font-size: 4.5rem; font-weight: 800; margin: 0; letter-spacing: -3px; animation: reveal 1s ease; }
+        .hero-text { animation: reveal 1s ease forwards; }
+        .hero-text h1 { font-size: 4.5rem; font-weight: 800; margin: 0; letter-spacing: -3px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; margin-top: 60px; }
         
         .product-card {
             background: var(--card-bg); border-radius: var(--radius); padding: 50px 30px;
             cursor: pointer; border: 1px solid #1d1d1f; animation: reveal 1s ease backwards;
         }
-        .product-card:hover { transform: translateY(-10px); border-color: var(--accent); }
+        .product-card:nth-child(2) { animation-delay: 0.2s; }
+        .product-card:nth-child(3) { animation-delay: 0.4s; }
+        .product-card:hover { transform: translateY(-10px); border-color: var(--accent); background: #18181a; }
 
-        /* --- Overlays --- */
+        /* --- Overlay Pages --- */
         .full-page {
             position: fixed; inset: 0; background: var(--bg); z-index: 2000;
             transform: translateY(100%); padding: 100px 8%; overflow-y: auto; 
-            visibility: hidden; transition: transform 0.6s cubic-bezier(0.8, 0, 0.2, 1);
+            visibility: hidden; transition: transform 0.8s cubic-bezier(0.8, 0, 0.2, 1);
         }
         .full-page.active { transform: translateY(0); visibility: visible; }
         .close-btn { position: absolute; top: 40px; right: 8%; cursor: pointer; background: #2c2c2e; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2001; }
 
-        /* --- Image Viewer --- */
-        .img-container {
-            width: 100%; height: 500px; background: #0a0a0a; border-radius: var(--radius);
-            border: 1px solid #1d1d1f; overflow: hidden; position: relative;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; }
-        .img-gloss { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%); pointer-events: none; }
-
-        /* --- Pickers --- */
-        .picker-label { font-size: 0.7rem; font-weight: 800; color: var(--secondary-text); text-transform: uppercase; margin-top: 25px; display: block; }
-        .color-row { display: flex; gap: 12px; margin: 10px 0 20px; }
-        .dot { width: 32px; height: 32px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transform: scale(0.9); }
-        .dot.selected { border-color: var(--accent); transform: scale(1.1); }
-
-        .size-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 10px; }
-        .s-btn { background: #1c1c1e; border: 1px solid #333; color: white; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 0.8rem; }
-        .s-btn.selected { background: var(--accent); border-color: var(--accent); }
-
+        /* --- Product UI --- */
         .qty-pill {
             display: inline-flex; align-items: center; background: #1c1c1e; 
-            border-radius: 50px; padding: 5px; border: 1px solid #333; margin: 25px 0;
+            border-radius: 50px; padding: 5px; border: 1px solid #333; margin: 20px 0;
         }
         .qty-pill button { background: #3a3a3c; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
         .qty-pill span { padding: 0 15px; font-weight: 600; min-width: 45px; text-align: center; }
         
-        .add-btn { background: var(--accent); color: white; border: none; padding: 20px; border-radius: 20px; font-size: 1.1rem; font-weight: 700; cursor: pointer; width: 100%; }
-        .add-btn:hover { filter: brightness(1.1); transform: scale(1.02); }
+        .buy-now { background: var(--accent); color: white; border: none; padding: 20px 40px; border-radius: 18px; font-size: 1.1rem; font-weight: 600; cursor: pointer; width: 100%; max-width: 350px; }
+        .remove-link { color: #ff3b30; cursor: pointer; font-size: 0.8rem; text-decoration: underline; margin-left: 15px; }
 
+        /* --- Tech Specs Table --- */
+        .tech-table { width: 100%; border-collapse: collapse; margin-top: 40px; font-size: 0.85rem; text-align: left; }
+        .tech-table th { padding: 15px; color: var(--secondary-text); border-bottom: 1px solid #333; }
+        .tech-table td { padding: 15px; border-bottom: 1px solid #111; }
+
+        /* --- Footer --- */
+        footer { padding: 80px 8%; border-top: 1px solid #1d1d1f; text-align: center; font-size: 0.75rem; color: var(--secondary-text); }
+        .partner { color: #00ff88; font-weight: 600; margin: 0 8px; }
     </style>
 </head>
 <body>
 
+    <div id="warningOverlay">
+        <div class="warning-box">
+            <h2 style="color:var(--accent); margin-top:0;">School Project</h2>
+            <p style="color: #86868b; line-height: 1.6; font-size: 0.9rem;">TW: None of the products seen here are real. This is a fictional project for academic use.</p>
+            <button class="cart-btn" style="margin-top:20px;" onclick="document.getElementById('warningOverlay').style.opacity='0'; setTimeout(()=>document.getElementById('warningOverlay').remove(), 600)">I Understand</button>
+        </div>
+    </div>
+
     <nav>
         <div class="logo" onclick="location.reload()">SNACK-HOODS</div>
-        <button class="cart-btn" onclick="togglePage('cartPage')">Bag (<span id="cartCount">0</span>)</button>
+        <div>
+            <span class="nav-link" onclick="togglePage('storyPage')">Our Story</span>
+            <button class="cart-btn" onclick="togglePage('cartPage')">Bag (<span id="cartCount">0</span>)</button>
+        </div>
     </nav>
 
     <div class="store-container">
@@ -96,80 +115,113 @@
 
         <div class="grid">
             <div class="product-card" onclick="openProduct('Lite')">
-                <span style="color:var(--accent); font-size:0.7rem; font-weight:800;">NEOMAG™ MINUS</span>
-                <h3>Snack-Hoods Lite</h3>
-                <p>$49.99</p>
+                <span style="color:var(--accent); font-size:0.7rem; font-weight:700;">COMING SOON</span>
+                <h3 style="font-size:1.8rem;">Snack-Hoods Lite</h3>
+                <p style="color:var(--secondary-text)">EasyKeep™ Minus</p>
             </div>
             <div class="product-card" onclick="openProduct('Classic')">
-                <span style="color:var(--accent); font-size:0.7rem; font-weight:800;">ESSENTIAL</span>
-                <h3>Snack-Hoods Classic</h3>
-                <p>$139.99 <span style="color:#ff3b30">-25%</span></p>
+                <span style="color:var(--accent); font-size:0.7rem; font-weight:700;">ESSENTIAL</span>
+                <h3 style="font-size:1.8rem;">Snack-Hoods Classic</h3>
+                <p>$139.99 <span style="color:#ff3b30; font-size:0.9rem;">-25%</span></p>
+                <p style="color:#00ff88; font-size:0.75rem; margin-top:5px;">25% off today | 10% off next purchase</p>
             </div>
             <div class="product-card" onclick="openProduct('Ultimate')">
-                <span style="color:var(--accent); font-size:0.7rem; font-weight:800;">PRO WEAR</span>
-                <h3>Snack-Hoods Ultimate</h3>
+                <span style="color:var(--accent); font-size:0.7rem; font-weight:700;">PRO WEAR</span>
+                <h3 style="font-size:1.8rem;">Snack-Hoods Ultimate</h3>
                 <p>$194.99</p>
+                <p style="color:var(--secondary-text); font-size:0.75rem;">StealthCore™ Pro Integrated</p>
             </div>
         </div>
     </div>
 
     <div id="productPage" class="full-page">
         <div class="close-btn" onclick="togglePage('productPage')">✕</div>
-        <div style="display:flex; flex-wrap:wrap; gap:50px; text-align:left;">
+        <div style="display:flex; flex-wrap:wrap; gap:60px; text-align:left;">
             <div style="flex:1.2; min-width:320px;">
-                <div class="img-container">
-                    <div class="img-gloss"></div>
-                    <img id="mainImg" src="20260318_133242_0_UTC_0.jpg">
+                <div style="height:450px; background:#0a0a0a; border-radius:var(--radius); border:1px solid #1d1d1f; display:flex; align-items:center; justify-content:center; color:#444; position:relative;">
+                    <span id="slideIndicator">Angle 1 of 3</span>
+                    <button onclick="changeSlide(-1)" style="position:absolute; left:20px; background:none; border:none; color:white; font-size:2rem; cursor:pointer;">❮</button>
+                    <button onclick="changeSlide(1)" style="position:absolute; right:20px; background:none; border:none; color:white; font-size:2rem; cursor:pointer;">❯</button>
                 </div>
-                <div style="display:flex; gap:10px; margin-top:15px;">
-                    <button onclick="setImg('20260318_133242_0_UTC_0.jpg')" style="flex:1; height:80px; overflow:hidden; border-radius:10px; border:none; cursor:pointer;"><img src="20260318_133242_0_UTC_0.jpg" style="width:100%; height:100%; object-fit:cover;"></button>
-                    <button onclick="setImg('20260318_132707_0_UTC_0.jpg')" style="flex:1; height:80px; overflow:hidden; border-radius:10px; border:none; cursor:pointer;"><img src="20260318_132707_0_UTC_0.jpg" style="width:100%; height:100%; object-fit:cover;"></button>
-                    <button onclick="setImg('20260318_132359_0_UTC_0.jpg')" style="flex:1; height:80px; overflow:hidden; border-radius:10px; border:none; cursor:pointer;"><img src="20260318_132359_0_UTC_0.jpg" style="width:100%; height:100%; object-fit:cover;"></button>
-                </div>
+                
+                <table class="tech-table">
+                    <thead><tr><th>Feature</th><th>Specification</th></tr></thead>
+                    <tbody id="techBody"></tbody>
+                </table>
             </div>
 
             <div style="flex:1; min-width:300px;">
                 <h1 id="pName" style="font-size:3.5rem; margin:0; letter-spacing:-2px;"></h1>
-                <p id="pPrice" style="font-size:2rem; color:var(--accent); margin:10px 0;"></p>
+                <p id="pPrice" style="font-size:2.5rem; color:var(--accent); margin:20px 0;"></p>
                 
-                <div id="buySection">
-                    <span class="picker-label">Color: <span id="colorName" style="color:white">Void</span></span>
-                    <div class="color-row" id="colorOptions"></div>
-
-                    <span class="picker-label">Select Size</span>
-                    <div class="size-row" id="sizeOptions"></div>
-
+                <div id="buyBox">
                     <div class="qty-pill">
-                        <button onclick="updateQty(-1)">−</button>
+                        <button onclick="changeQty(-1)">−</button>
                         <span id="pQty">1</span>
-                        <button onclick="updateQty(1)">+</button>
-                    </div>
-                    <button class="add-btn" onclick="addToBag()">Add to Bag</button>
+                        <button onclick="changeQty(1)">+</button>
+                    </div><br>
+                    <button class="buy-now" onclick="addToBag()">Add to Bag</button>
+                </div>
+
+                <div style="margin-top:40px; padding-top:40px; border-top:1px solid #222;">
+                    <h4 style="color:var(--accent); text-transform:uppercase; font-size:0.7rem;">Fabric Innovation</h4>
+                    <p style="font-size:0.85rem; color:var(--secondary-text); line-height:1.6;">
+                        Featuring <b>StealthCore™</b>: An advanced patented fabric layered via laser fabrication to block 94% of sound frequencies. Created in partnership with Lumia Labs™.
+                    </p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div id="storyPage" class="full-page">
+        <div class="close-btn" onclick="togglePage('storyPage')">✕</div>
+        <div style="max-width:750px; margin:0 auto; text-align:left;">
+            <h1 style="font-size:4rem; color:var(--accent); letter-spacing:-2px;">Our Story</h1>
+            <p style="font-size:0.95rem; line-height:1.8; color:var(--secondary-text)">
+                It all started when we kept on complaining about how we couldn't eat any food in class, whether that was a bag of chips, a chocolate bar, or even skittles. Then an idea struck—a hoodie where you can store snacks, giving you all the space in the world to snack in stealth.<br><br>
+                We eventually came up with the <b>Snack-Hoods</b>! A revolutionary hoodie using a removable binder contraption, fitted with our advanced patented material designed to eliminate sound leakage while ensuring environmental efforts via collaboration with <b>Lumia Labs</b> and <b>ECO-LIFE</b>.
+            </p>
         </div>
     </div>
 
     <div id="cartPage" class="full-page">
         <div class="close-btn" onclick="togglePage('cartPage')">✕</div>
-        <h1 style="font-size:3rem; text-align:left;">Bag</h1>
-        <div id="bagItems" style="margin-top:30px; text-align:left;"></div>
-        <div style="margin-top:50px; background:#111; padding:40px; border-radius:var(--radius); text-align:right;">
+        <h1 style="font-size:3rem; text-align:left;">Your Bag</h1>
+        <div id="bagItems" style="margin-top:40px; text-align:left;"></div>
+        <div style="margin-top:50px; background:#111; padding:40px; border-radius:var(--radius); text-align:right; border:1px solid #222;">
             <p>Subtotal: $<span id="subTotal">0.00</span></p>
             <p style="color:var(--secondary-text)">Tax (13%): $<span id="taxTotal">0.00</span></p>
             <h2 style="font-size:2.5rem; color:var(--accent)">Total: $<span id="grandTotal">0.00</span></h2>
-            <button class="add-btn" style="max-width:300px">Checkout</button>
+            <button class="buy-now">Proceed to Checkout</button>
         </div>
     </div>
 
+    <footer>
+        <p><span class="partner">Partnered with ECO-LIFE™ 🍃</span> | <span class="partner">Partnered with Lumia Labs™ 🎶</span></p>
+        <p style="margin-top:20px;">
+            <b>Snack-Hoods</b> is our trademark. We own all intellectual property. All rights reserved. © 2026.
+        </p>
+    </footer>
+
     <script>
         let bag = [];
-        let cur = { name: '', price: 0, qty: 1, color: 'Void', size: 'M' };
-        
-        const colors = [
-            {n: 'Void', h: '#000'}, {n: 'Frost', h: '#e2e2e2'}, {n: 'Magma', h: '#ff3b30'}, 
-            {n: 'Cloud', h: '#f5f5f7'}, {n: 'Cream', h: '#f3e5ab'}, {n: 'Blush', h: '#ffb6c1'}
-        ];
+        let cur = {};
+        let slide = 1;
+
+        const info = {
+            'Lite': { 
+                price: 49.99, 
+                specs: [['Compartment', 'EasyKeep™ Minus'], ['Sound-Proof', 'StealthCore™ Minus'], ['Magnetic', 'NeoMag™ Minus'], ['Colors', '6 Unique Variants']] 
+            },
+            'Classic': { 
+                price: 139.99, 
+                specs: [['Compartment', 'EasyKeep™ Plus'], ['Sound-Proof', 'StealthCore™ Plus'], ['Magnetic', 'NeoMag™ Classic'], ['Sizes', 'XS, S, M, L, XL']] 
+            },
+            'Ultimate': { 
+                price: 194.99, 
+                specs: [['Compartment', 'EasyKeep™ Pro'], ['Sound-Proof', 'StealthCore™ Pro'], ['Magnetic', 'NeoMag™ Pro'], ['Add-ons', 'NeoTach™ Compatible']] 
+            }
+        };
 
         function togglePage(id) {
             const p = document.getElementById(id);
@@ -177,41 +229,27 @@
             document.body.style.overflow = p.classList.contains('active') ? 'hidden' : 'auto';
         }
 
-        function setImg(src) { document.getElementById('mainImg').src = src; }
-
         function openProduct(name) {
-            cur = { name: name, price: (name === 'Ultimate' ? 194.99 : 139.99), qty: 1, color: 'Void', size: 'M' };
-            if(name === 'Lite') cur.price = 49.99;
-            
+            cur = { name: name, price: info[name].price, qty: 1 };
             document.getElementById('pName').innerText = "Snack-Hoods " + name;
             document.getElementById('pPrice').innerText = name === 'Lite' ? "Coming Soon" : "$" + cur.price;
-            setImg('20260318_133242_0_UTC_0.jpg');
-            renderSelectors();
+            document.getElementById('pQty').innerText = 1;
+            document.getElementById('techBody').innerHTML = info[name].specs.map(s => `<tr><td><b>${s[0]}</b></td><td>${s[1]}</td></tr>`).join('');
+            document.getElementById('buyBox').style.display = (name === 'Lite') ? 'none' : 'block';
+            slide = 1;
+            document.getElementById('slideIndicator').innerText = `Angle ${slide} of 3`;
             togglePage('productPage');
         }
 
-        function renderSelectors() {
-            // Colors
-            document.getElementById('colorOptions').innerHTML = colors.map(c => `
-                <div class="dot ${cur.color === c.n ? 'selected' : ''}" 
-                     style="background:${c.h}" 
-                     onclick="selectColor('${c.n}')"></div>
-            `).join('');
-            document.getElementById('colorName').innerText = cur.color;
-
-            // Sizes
-            const sizes = cur.name === 'Ultimate' ? ['XS','S','M','L','XL','XXL'] : ['S','M','L','XL'];
-            document.getElementById('sizeOptions').innerHTML = sizes.map(s => `
-                <button class="s-btn ${cur.size === s ? 'selected' : ''}" 
-                        onclick="selectSize('${s}')">${s}</button>
-            `).join('');
-            
-            document.getElementById('pQty').innerText = cur.qty;
+        function changeSlide(n) {
+            slide = slide + n > 3 ? 1 : (slide + n < 1 ? 3 : slide + n);
+            document.getElementById('slideIndicator').innerText = `Angle ${slide} of 3`;
         }
 
-        function selectColor(n) { cur.color = n; renderSelectors(); }
-        function selectSize(s) { cur.size = s; renderSelectors(); }
-        function updateQty(v) { cur.qty = Math.max(1, cur.qty + v); renderSelectors(); }
+        function changeQty(n) {
+            cur.qty = Math.max(1, cur.qty + n);
+            document.getElementById('pQty').innerText = cur.qty;
+        }
 
         function addToBag() {
             bag.push({...cur});
@@ -220,22 +258,23 @@
             togglePage('cartPage');
         }
 
+        function removeItem(index) {
+            bag.splice(index, 1);
+            updateBag();
+        }
+
         function updateBag() {
             document.getElementById('cartCount').innerText = bag.length;
-            const sub = bag.reduce((a, b) => a + (b.price * b.qty), 0);
+            const sub = bag.reduce((acc, item) => acc + (item.price * item.qty), 0);
             const tax = sub * 0.13;
             document.getElementById('subTotal').innerText = sub.toFixed(2);
             document.getElementById('taxTotal').innerText = tax.toFixed(2);
             document.getElementById('grandTotal').innerText = (sub + tax).toFixed(2);
 
-            document.getElementById('bagItems').innerHTML = bag.map((item, i) => `
+            document.getElementById('bagItems').innerHTML = bag.length === 0 ? "<p>Your bag is empty.</p>" : bag.map((item, i) => `
                 <div style="display:flex; justify-content:space-between; padding:20px 0; border-bottom:1px solid #222;">
-                    <div>
-                        <b>Snack-Hoods ${item.name}</b><br>
-                        <small style="color:var(--secondary-text)">${item.color} | Size ${item.size} | Qty ${item.qty}</small><br>
-                        <span style="color:#ff3b30; cursor:pointer; font-size:0.7rem;" onclick="bag.splice(${i},1); updateBag()">Remove</span>
-                    </div>
-                    <span>$${(item.price * item.qty).toFixed(2)}</span>
+                    <div><b>Snack-Hoods ${item.name}</b> (x${item.qty})<br><span class="remove-link" onclick="removeItem(${i})">Remove</span></div>
+                    <span style="color:var(--accent);">$${(item.price * item.qty).toFixed(2)}</span>
                 </div>
             `).join('');
         }
