@@ -17,24 +17,12 @@
             --glass: rgba(255, 255, 255, 0.7);
         }
 
-        /* --- NEW: Moving Cloth Background --- */
         body {
             font-family: 'Outfit', sans-serif;
             margin: 0;
-            background: linear-gradient(217deg, rgba(255,126,95,.2), rgba(255,126,95,0) 70.71%),
-                        linear-gradient(127deg, rgba(46,204,113,.2), rgba(46,204,113,0) 70.71%),
-                        linear-gradient(336deg, rgba(255,214,0,.1), rgba(255,214,0,0) 70.71%);
-            background-attachment: fixed;
-            background-size: 400% 400%;
-            animation: clothMove 15s ease infinite;
+            background-color: var(--bg-clean);
             color: var(--text-dark);
             overflow-x: hidden;
-        }
-
-        @keyframes clothMove {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
         }
 
         /* Fluid Navigation */
@@ -115,8 +103,7 @@
         }
 
         .p-card {
-            background: rgba(255, 255, 255, 0.6); /* Adjusted for cloth bg visibility */
-            backdrop-filter: blur(10px);
+            background: #fdfdfd;
             border-radius: 40px;
             padding: 40px;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -141,29 +128,6 @@
         .p-card:hover video {
             transform: scale(1.05);
         }
-
-        /* --- NEW: Quantity Adder Styles --- */
-        .qty-container {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin: 20px 0;
-            background: #f0f0f0;
-            width: fit-content;
-            padding: 5px 15px;
-            border-radius: 100px;
-        }
-
-        .qty-btn {
-            background: none;
-            border: none;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            padding: 5px 10px;
-        }
-
-        .qty-val { font-weight: 800; min-width: 20px; text-align: center; }
 
         /* Coming Soon Blackout */
         .lite-version {
@@ -198,15 +162,12 @@
             transition: 0.3s;
             background: var(--brand-main);
             color: white;
-            width: 100%;
         }
 
         .btn-fluid:hover {
             transform: scale(1.05);
             background: var(--text-dark);
         }
-
-        .nav-links a { text-decoration: none; color: inherit; margin-left: 20px; }
 
     </style>
 </head>
@@ -229,7 +190,7 @@
         <div class="hero-content">
             <h1>UNSAVABLE <br>PROGRESS.</h1>
             <p>15 Seconds to Load. 15 Seconds to Snack.</p>
-            <button class="btn-fluid" style="width: auto;" onclick="showPage('shop')">Explore Collections</button>
+            <button class="btn-fluid" onclick="showPage('shop')">Explore Collections</button>
         </div>
     </div>
 
@@ -250,42 +211,28 @@
             <p style="opacity: 0.6;">Coming Soon. Standard materials, high-density stealth.</p>
         </div>
 
-        <div class="p-card reveal">
+        <div class="p-card reveal" onclick="viewProduct('og')">
             <video autoplay muted loop playsinline>
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-waves-in-the-water-1164-large.mp4" type="video/mp4">
             </video>
             <div class="tag">🌿 ECOLIFE</div> <div class="tag">🔊 Lumia Labs</div>
             <h3>Snack-Hood: The OG</h3>
             <p>$100.00 CAD</p>
-            
-            <div class="qty-container">
-                <button class="qty-btn" onclick="changeQty('qty-og', -1)">-</button>
-                <div class="qty-val" id="qty-og">1</div>
-                <button class="qty-btn" onclick="changeQty('qty-og', 1)">+</button>
-            </div>
-            <button class="btn-fluid" onclick="addToBag('Snack-Hood: The OG', 100, 'qty-og')">Add to Bag</button>
         </div>
 
-        <div class="p-card reveal">
+        <div class="p-card reveal" onclick="viewProduct('ultimate')">
             <video autoplay muted loop playsinline>
                 <source src="https://assets.mixkit.co/videos/preview/mixkit-texture-of-a-black-fabric-4458-large.mp4" type="video/mp4">
             </video>
             <div class="tag">🌿 Premium</div> <div class="tag">🔊 Lumia Max</div>
             <h3>Snack-Hood Ultimate</h3>
             <p>$130.00 CAD</p>
-            
-            <div class="qty-container">
-                <button class="qty-btn" onclick="changeQty('qty-ult', -1)">-</button>
-                <div class="qty-val" id="qty-ult">1</div>
-                <button class="qty-btn" onclick="changeQty('qty-ult', 1)">+</button>
-            </div>
-            <button class="btn-fluid" onclick="addToBag('Snack-Hood Ultimate', 130, 'qty-ult')">Add to Bag</button>
         </div>
     </div>
 </div>
 
 <script>
-    // 1. Fluid Page Switching (YOUR OG SCRIPT)
+    // 1. Fluid Page Switching
     function showPage(id) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById(id).classList.add('active');
@@ -293,7 +240,7 @@
         initScrollReveal();
     }
 
-    // 2. Scroll Reveal Observer (YOUR OG SCRIPT)
+    // 2. Scroll Reveal Observer (The Apple Effect)
     function initScrollReveal() {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -306,29 +253,19 @@
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }
 
+    // Initialize on load
     window.onload = initScrollReveal;
 
-    // --- NEW: Quantity Logic ---
-    function changeQty(id, amount) {
-        const qtyEl = document.getElementById(id);
-        let current = parseInt(qtyEl.innerText);
-        current += amount;
-        if (current < 1) current = 1;
-        qtyEl.innerText = current;
-    }
-
-    // 3. Cart Logic (MODIFIED TO TAKE QUANTITY)
+    // Cart Logic
     let cart = [];
-    function addToBag(name, price, qtyId) {
-        const quantity = parseInt(document.getElementById(qtyId).innerText);
-        for(let i=0; i < quantity; i++) {
-            cart.push({name, price});
-        }
+    function addToBag(name, price) {
+        cart.push({name, price});
         document.getElementById('cart-count').innerText = cart.length;
-        alert("Added " + quantity + " x " + name + " to your bag.");
+        alert("Added " + name + " to your bag.");
     }
 </script>
 
 </body>
 </html>
+
 
